@@ -1,10 +1,9 @@
 from cryptography.fernet import Fernet
 import os
-
 def gen_key():
     key = Fernet.gen_key()
-    with open("secret.key", "wb") as key_file:
-        key_file.write(key)
+    with open("secret.key", "wb") as kf:
+        kf.write(key)
 
 def load_key():
     return open("secret.key", "rb").read()
@@ -12,8 +11,8 @@ def load_key():
 def ef(file_name):
     key = load_key()
     fernet = Fernet(key)
-    with open(file_name, "rb") as file:
-        original = file.read()
+    with open(file_name, "rb") as f:
+        original = f.read()
     encrypted = fernet.encrypt(original)
 
     with open(file_name, "wb") as ef:
@@ -53,5 +52,6 @@ def main():
 
 if __name__ == "__main__":
     if not os.path.exists("secret.key"):
-        genk()
+        gen_key()
+    
     main()
